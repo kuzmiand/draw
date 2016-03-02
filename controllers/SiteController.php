@@ -161,7 +161,7 @@ class SiteController extends Controller
 
                             $around = strip_tags($children[4]);
 
-                            $amount_full = strstr($around, "(", true);
+                            $amount_full = trim(strstr($around, "(", true));
                             $amount_full_explode = explode(':', $amount_full);
 
                             $amount_partial = strstr($around, "(");

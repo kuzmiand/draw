@@ -49,6 +49,7 @@ class BackendAsset extends AssetBundle
         'adminlte/dist/js/app.min.js',
         //'adminlte/dist/js/pages/dashboard.js',
         'adminlte/dist/js/demo.js',
+        'adminlte/plugins/chartjs/Chart.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -132,6 +132,15 @@ $action_name = Yii::$app->controller->action->id;
                                     <li class="<?= $controller_name=='backend/draw-game'? 'active':'';?>"><a href="<?= Url::toRoute('backend/draw-game') ?>"><i class="fa fa-circle-o"></i> <?= Yii::t('app', 'Games') ?></a></li>
                                 </ul>
                             </li>
+                            <li class="treeview <?= $controller_name=='backend/draw-chart' ? 'active':'';?>">
+                                <a href="#">
+                                    <i class="fa fa-pie-chart"></i><span><?= Yii::t('app', 'Charts') ?></span><i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu ">
+                                    <li class="<?= $controller_name=='backend/draw-chart' ? 'active':'';?>"><a href="<?= Url::toRoute('backend/draw-chart') ?>"><i class="fa fa-circle-o"></i> <?= Yii::t('app', 'Charts Season') ?></a></li>
+                                    <li class="<?= $controller_name=='backend/draw-chart' ? 'active':'';?>"><a href="<?= Url::toRoute('backend/draw-chart') ?>"><i class="fa fa-circle-o"></i> <?= Yii::t('app', 'Charts Team') ?></a></li>
+                                </ul>
+                            </li>
                         </ul>
 
                     </section>
