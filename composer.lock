@@ -714,12 +714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "574c0e310bda692253c1ba0eac9a94c699b299d5"
+                "reference": "55b44279762534e1307739157f8eb801731fb4e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/574c0e310bda692253c1ba0eac9a94c699b299d5",
-                "reference": "574c0e310bda692253c1ba0eac9a94c699b299d5",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/55b44279762534e1307739157f8eb801731fb4e6",
+                "reference": "55b44279762534e1307739157f8eb801731fb4e6",
                 "shasum": ""
             },
             "require": {
@@ -755,26 +755,31 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-19 18:29:46"
+            "time": "2016-03-02 16:23:51"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "1.8.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce"
+                "reference": "e8c1543ffc130202a5aa579d3f8ca4d5f54a1735"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/0c274e31e4392cbafc5fe158eae81738794e02ce",
-                "reference": "0c274e31e4392cbafc5fe158eae81738794e02ce",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/e8c1543ffc130202a5aa579d3f8ca4d5f54a1735",
+                "reference": "e8c1543ffc130202a5aa579d3f8ca4d5f54a1735",
                 "shasum": ""
             },
             "require": {
                 "yiisoft/yii2-bootstrap": "@dev"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\base\\": ""
@@ -801,7 +806,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 12:26:29"
+            "time": "2016-03-02 18:36:40"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1214,12 +1219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "04660d699a5b80d4f32b59c798916c0b32cced8e"
+                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/797957379bc2b9e6e342290143070c5635c67f82",
-                "reference": "04660d699a5b80d4f32b59c798916c0b32cced8e",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5daf281b63f7cc5c182bd27eb0dbcd499baf230d",
+                "reference": "5daf281b63f7cc5c182bd27eb0dbcd499baf230d",
                 "shasum": ""
             },
             "require": {
@@ -1300,7 +1305,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-02-25 19:24:32"
+            "time": "2016-02-29 08:40:58"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1728,12 +1733,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "56aa72f0d57616933781a1b4e489e6cbdc5d1d98"
+                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/737e5e42c2320c9ccb7c314e5e2a387fe7381536",
-                "reference": "56aa72f0d57616933781a1b4e489e6cbdc5d1d98",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/416a132083aa6f19a6ac42ae0b31fdb26159e72f",
+                "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f",
                 "shasum": ""
             },
             "require": {
@@ -1770,7 +1775,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-02-25 22:20:25"
+            "time": "2016-02-29 14:07:32"
         },
         {
             "name": "phpspec/php-diff",
