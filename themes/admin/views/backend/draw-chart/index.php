@@ -66,7 +66,7 @@ use yii\web\View;
       $(function () {
 
         var areaChartData = {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: [".$rounds."],
           datasets: [
             {
                 label: 'Electronics',
@@ -76,7 +76,7 @@ use yii\web\View;
               pointStrokeColor: '#c1c7d1',
               pointHighlightFill: '#fff',
               pointHighlightStroke: 'rgba(220,220,220,1)',
-              data: [0, 5, 10, 30, 50, 70, 90]
+              data: [".$put_sum_all."]
             },
             {
                 label: 'Digital Goods',
@@ -86,7 +86,7 @@ use yii\web\View;
               pointStrokeColor: 'rgba(255,5,5,1)',
               pointHighlightFill: '#fff',
               pointHighlightStroke: 'rgba(255,5,5,1)',
-              data: [0, 10, 20, 10, 50, 55, 60]
+              data: [".$win_sum_all."]
             }
           ]
         };
