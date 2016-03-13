@@ -26,6 +26,13 @@ class DrawChartController extends BackendController
         $league = DrawLeague::find()->where(['name'=>'D1'])->one();
         $season = DrawSeason::find()->where(['slug'=>'201415'])->one();
 
+        $put_sum = 1;
+        $coefficient = 2;
+        $coefficient_game = 3;
+        $round_start = 1;
+        $round_end = 16;
+
+
         $league_season = null;
         if($country && $league && $season){
             $league_season = DrawRelLeagueSeason::find()->where(['league_id'=>$league->id, 'season_id'=>$season->id, 'country_id'=>$country->id])->one();
@@ -39,28 +46,30 @@ class DrawChartController extends BackendController
 
             if(!empty($games_season)){
 
-                $put_sum_all = 0;
-                $win_sum_all = 0;
-
-                $put_sum = 1;
-                $win_sum = 0;
-
                 $array_all_sum = [];
-                for($i=1;  $i<=$round_count; $i++){
+                /*for($i=1;  $i<=$round_count; $i++){
                     foreach($rel_team_season as $team_season){
                         $array_all_sum[$i][$team_season->team_id]['put_sum']=0;
                         $array_all_sum[$i][$team_season->team_id]['win_sum']=0;
                         $array_all_sum[$i][$team_season->team_id]['all_put_sum']=0;
                         $array_all_sum[$i][$team_season->team_id]['all_win_sum']=0;
                     }
-                }
+                }*/
 
-                $array_all_sum['put_sum_all']= 0;
-                $array_all_sum['win_sum_all']= 0;
+                /*$array_all_sum['put_sum_all']= 0;
+                $array_all_sum['win_sum_all']= 0;*/
 
                 foreach($games_season as $key=>$game){
 
-                    $array_all_sum[$game->round][$game->team_home_id]['put_sum'] += $put_sum;
+                    if(!isset($array_all_sum[$game->round-1][$game->team_home_id]['put_sum'])){
+                        $array_all_sum[$game->round][$game->team_home_id]['put_sum'] = $put_sum;
+                    }
+
+                    if(!isset($array_all_sum[$game->round-1][$game->team_guest_id]['put_sum'])){
+                        $array_all_sum[$game->round][$game->team_guest_id]['put_sum'] = $put_sum;
+                    }
+
+                    /*$array_all_sum[$game->round][$game->team_home_id]['put_sum'] += $put_sum;
                     $array_all_sum[$game->round][$game->team_home_id]['win_sum'] += $put_sum;
                     $array_all_sum[$game->round][$game->team_home_id]['all_put_sum'] += $put_sum;
                     $array_all_sum[$game->round][$game->team_home_id]['all_win_sum'] += $put_sum;
@@ -68,24 +77,66 @@ class DrawChartController extends BackendController
                     $array_all_sum[$game->round][$game->team_guest_id]['put_sum'] += $put_sum;
                     $array_all_sum[$game->round][$game->team_guest_id]['win_sum'] += $put_sum;
                     $array_all_sum[$game->round][$game->team_guest_id]['all_put_sum'] += $put_sum;
-                    $array_all_sum[$game->round][$game->team_guest_id]['all_win_sum'] += $put_sum;
+                    $array_all_sum[$game->round][$game->team_guest_id]['all_win_sum'] += $put_sum;*/
 
-
-                    $array_all_sum['put_sum_all'] += $put_sum;
-                    $array_all_sum[$game->round]['put_sum'] += $put_sum;
 
                     if($game->result){
-                        $put_sum = $put_sum*2;
+                        $array_all_sum[$game->round+1][$game->team_home_id]['put_sum'] = $array_all_sum[$game->round][$game->team_home_id]['put_sum']*$coefficient;
+                        $array_all_sum[$game->round][$game->team_home_id]['win_sum'] = 0;
                     }else{
-                        $array_all_sum[$game->round]['win_sum'] += ($put_sum*3);
-                        $array_all_sum['win_sum_all'] += ($put_sum*3);
-                        $put_sum = 1;
+                        $array_all_sum[$game->round+1][$game->team_home_id]['put_sum'] = $put_sum;
+                        $array_all_sum[$game->round][$game->team_home_id]['win_sum'] = $array_all_sum[$game->round][$game->team_home_id]['put_sum']*$coefficient_game;
+                    }
+                    $array_all_sum[$game->round+1][$game->team_home_id]['win_sum'] = 0;
+
+                    if($game->result){
+                        $array_all_sum[$game->round+1][$game->team_guest_id]['put_sum'] = $array_all_sum[$game->round][$game->team_guest_id]['put_sum']*$coefficient;
+                        $array_all_sum[$game->round][$game->team_guest_id]['win_sum'] = 0;
+                    }else{
+                        $array_all_sum[$game->round+1][$game->team_guest_id]['put_sum'] = $put_sum;
+                        $array_all_sum[$game->round][$game->team_guest_id]['win_sum'] = $array_all_sum[$game->round][$game->team_guest_id]['put_sum']*$coefficient_game;
+                    }
+                    $array_all_sum[$game->round+1][$game->team_guest_id]['win_sum'] = 0;
+
+                }
+
+                foreach($array_all_sum as $k=>$round){
+                    if(($k>=$round_start) && ($k<=$round_end)){
+                        $put_sum_round[$k]= 0;
+                        $win_sum_round[$k]= 0;
+                        foreach($round as $game){
+                            $put_sum_round[$k]+= $game['put_sum'];
+                            $win_sum_round[$k]+= $game['win_sum'];
+                        }
+                        echo "<pre>";
+                        var_dump($put_sum_round[$k],$win_sum_round[$k]);
+                        echo "</pre>";
+                        echo '===================================';
+
+                        array_slice($put_sum_round, 0, -1);
+                        array_slice($win_sum_round, 0, -1);
                     }
 
                 }
+
+                $put_sum_all= 0;
+                foreach($put_sum_round as $round){
+                    $put_sum_all+=$round;
+                }
+
+                $win_sum_all= 0;
+                foreach($win_sum_round as $round){
+                    $win_sum_all+=$round;
+                }
+
             }
 
         }
+
+        echo "<pre>";
+        var_dump($put_sum_all, $win_sum_all);
+        echo "</pre>";
+        die();
 
         $rounds = '';
         if(isset($round_count)){
