@@ -170,6 +170,107 @@ class DrawChartController extends BackendController
 
     }
 
+    public function actionTeam()
+    {
+        $country = DrawCountry::find()->where(['id'=>1])->one();
+        $league = DrawLeague::find()->where(['name'=>'D1'])->one();
+        $season = isset($_POST['season_id']) ?  DrawSeason::findOne($_POST['season_id']) : DrawSeason::find()->where(['slug'=>'201415'])->one();
+        $team =  isset($_POST['team_id']) ?  DrawTeam::findOne($_POST['team_id']) : DrawTeam::findOne(1);
+
+
+        $put_sum = 1;
+        $coefficient = 2;
+        $coefficient_game = 3;
+        $round_start = 1;
+        $round_end = 16;
+
+
+        $league_season = null;
+        if($country && $league && $season){
+            $league_season = DrawRelLeagueSeason::find()->where(['league_id'=>$league->id, 'season_id'=>$season->id, 'country_id'=>$country->id])->one();
+        }
+
+        if($league_season){
+
+            if($team){
+                $games_season = DrawGame::find()->where("(season_league_id =$league_season->id)  AND (team_home_id = $team->id OR team_guest_id = $team->id)")->orderBy(['round'=>SORT_ASC])->all();
+            }else{
+                $games_season = DrawGame::find()->where(['season_league_id'=>$league_season->id])->orderBy(['round'=>SORT_ASC])->all();
+            }
+
+            if(!empty($games_season)){
+
+                $array_all_sum = [];
+                $count = count($games_season);
+
+                foreach($games_season as $key=>$game){
+
+                    if(!isset($array_all_sum[$game->round-1]['put_sum'])){
+                        $array_all_sum[$game->round]['put_sum'] = $put_sum;
+                    }
+
+                    if($game->result){
+                        $array_all_sum[$game->round+1]['put_sum'] = $array_all_sum[$game->round]['put_sum']*$coefficient;
+                        $array_all_sum[$game->round]['win_sum'] = 0;
+                    }else{
+                        $array_all_sum[$game->round+1]['put_sum'] = $put_sum;
+                        $array_all_sum[$game->round]['win_sum'] = $array_all_sum[$game->round]['put_sum']*$coefficient_game;
+                    }
+
+                    $array_all_sum[$game->round+1]['win_sum'] = 0;
+                }
+
+                $array_all_sum = array_slice($array_all_sum, 0, -1, true);
+
+                $array_all_sum['put_sum_all'] = 0;
+                $array_all_sum['win_sum_all'] = 0;
+
+                foreach($array_all_sum as $value){
+                    $array_all_sum['put_sum_all'] += $value['put_sum'];
+                    $array_all_sum['win_sum_all'] += $value['win_sum'];
+                }
+                
+            }
+
+        }
+
+
+        $round_count = count($games_season);
+        $rounds = '';
+        if(isset($round_count)){
+            for($i=1; $i<=$round_count; $i++){
+                $rounds.="'R".$i."',";
+            }
+            $rounds.="'P/W',";
+        }
+
+        $put_sum_all = '';
+        $win_sum_all = '';
+        foreach($array_all_sum as $key=>$sum){
+            if($key != 'put_sum_all' && $key != 'win_sum_all'){
+                $put_sum_all.= $sum['put_sum'].',';
+                $win_sum_all.= $sum['win_sum'].',';
+            }
+            elseif($key == 'put_sum_all'){
+                $put_sum_all.= $sum.',';
+                //$put_sum_all.= $sum['put_sum_all'].',';
+            }
+            elseif($key == 'win_sum_all'){
+                $win_sum_all.= $sum.',';
+                //$win_sum_all.= $sum['win_sum_all'].',';
+            }
+        }
+
+        return $this->render('team', [
+            'array_all_sum'=>$array_all_sum,
+            'put_sum_all'=>$put_sum_all,
+            'win_sum_all'=>$win_sum_all,
+            'rounds'=>$rounds,
+            'team'=>$team,
+        ]);
+
+    }
+
     public function actionSumUp()
     {
         $country = DrawCountry::find()->where(['id'=>1])->one();
